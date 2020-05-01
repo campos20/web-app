@@ -13,17 +13,22 @@ charset=UTF-8">
 String erro = null;
 
 // Checa se o usuario e a senha estao corretos
-if ("POST".equalsIgnoreCase(request.getMethod()) && request.getParameter("submit") != null) {
-	String usuario = request.getParameter("usuario");
-	String senha = request.getParameter("senha");
+if ("POST".equalsIgnoreCase(request.getMethod()) && request.getParameter("submit") != null) {%>
+	<jsp:useBean id="loginBean" class="com.alexandrecampos.webapp.bean.LoginBean">
+		<jsp:setProperty name="loginBean" property="*" />
+	</jsp:useBean>
+	<%
+		if (loginBean.isValid()){
+			// Usuario validado. Mostrar as mensagens de boas vindas
+			out.println("<h2>Bem vindo</h2>");
+			out.println("Login efetuado com sucesso!");
+			return;
+		} else {
+			erro = "Usuário ou senha inválidos. Tente novamente.";
+		}
+	%>
 
-	if ("admin".equalsIgnoreCase(usuario) && "admin".equalsIgnoreCase(senha)) {
-		// Usuario validado
-		out.print("Bem vindo, " + usuario);
-		return;
-	} else {
-		erro = "Usuário ou senha inválidos. Tente novamente.";
-	}
+<%
 }
 %>
 <body>
