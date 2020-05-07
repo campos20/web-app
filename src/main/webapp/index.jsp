@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -15,46 +17,37 @@ charset=UTF-8">
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
 </head>
-<%
-	// Entre esses simbolos, podemos escrever java
-String erro = null;
 
-// Checa se o usuario e a senha estao corretos
-if ("POST".equalsIgnoreCase(request.getMethod()) && request.getParameter("submit") != null) {
-%>
-<jsp:useBean id="loginBean"
-	class="com.alexandrecampos.webapp.bean.LoginBean">
-	<jsp:setProperty name="loginBean" property="*" />
-</jsp:useBean>
-<%
-	if (loginBean.isValid()) {
-	// Usuario validado. Mostrar as mensagens de boas vindas
-	out.println("<h2>Bem vindo</h2>");
-	out.println("Login efetuado com sucesso!");
-	return;
-} else {
-	erro = "Usuário ou senha inválidos. Tente novamente.";
-}
-%>
+<c:set var="erro" value="${null}" />
 
-<%
-}
-%>
+<!-- Pessoa clicou em Entrar -->
+<c:if
+	test="${\"POST\".equalsIgnoreCase(pageContext.request.method) && pageContext.request.getParameter(\"submit\") != null}">
+
+	<!-- Cria um objecto com usuario e senha -->
+	<jsp:useBean id="loginBean"
+		class="com.alexandrecampos.webapp.bean.LoginBean">
+		<jsp:setProperty name="loginBean" property="*" />
+	</jsp:useBean>
+
+	<!-- Decisao -->
+	<c:choose>
+		<c:when test="${!loginBean.isValid()}">
+			<c:set var="erro"
+				value="Usuário ou senha inválidos. Tente novamente." />
+		</c:when>
+
+		<c:otherwise>
+			<c:redirect url="/boas-vindas.jsp"></c:redirect>
+		</c:otherwise>
+	</c:choose>
+
+</c:if>
+
 <body>
 	<div class="jumbotron">
 		<h2>Login</h2>
 	</div>
-	<!-- Checa se o usuario foi validado -->
-	<%
-		if (erro != null) {
-	%>
-	<span class="text-danger"> <%
- 	out.print(erro);
- %>
-	</span>
-	<%
-		}
-	%>
 
 	<form method="post" class="text-center">
 
