@@ -5,14 +5,16 @@
 <!DOCTYPE html>
 <html>
 
-<c:import url="common/header.jsp"></c:import>
+<c:import url="common/header.jsp" />
 
 <body>
 	<div class="jumbotron">
-		<h1>Seja bem vindo!</h1>
+		<h1>
+			Seja bem vindo, <c:out value="${usuario}" />!
+		</h1>
 	</div>
 
-	<c:import url="common/footer.jsp"></c:import>
+	<c:import url="common/footer.jsp" />
 
 </body>
 </html>
