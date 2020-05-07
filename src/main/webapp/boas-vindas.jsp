@@ -9,7 +9,9 @@
 
 <body>
 	<div class="jumbotron">
-		<h1>Seja bem vindo!</h1>
+		<h1>
+			Seja bem vindo, <c:out value="${usuario}"></c:out>!
+		</h1>
 	</div>
 
 	<c:import url="common/footer.jsp"></c:import>
